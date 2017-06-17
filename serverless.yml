@@ -1,0 +1,37 @@
+service: anon-texts-lambda-db
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  environment:
+    DYNAMODB_TABLE: arn:aws:dynamodb:us-east-1:008360979626:table/sentMessages
+
+functions:
+  create:
+    handler: sentMessages/create.create
+    events:
+      - http:
+          path: sentMessages
+          method: post
+          cors: true
+
+  get:
+    handler: sentMessages/get.get
+    events:
+      - http:
+          path: sentMessages/{id}
+          method: get
+          cors: true
+
+
+# you can add CloudFormation resource templates here
+#resources:
+#  Resources:
+#    NewResource:
+#      Type: AWS::S3::Bucket
+#      Properties:
+#        BucketName: my-new-bucket
+#  Outputs:
+#     NewOutput:
+#       Description: "Description for the output"
+#       Value: "Some output value"

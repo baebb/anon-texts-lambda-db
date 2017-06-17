@@ -1,0 +1,16 @@
+{
+  "name": "anon-texts-lambda-db",
+  "description": "REST API for storing and viewing sent text messages via anon-texts",
+  "version": "0.1.0",
+  "devDependencies": {},
+  "dependencies": {
+    "aws-sdk": "^2.72.0"
+  },
+  "scripts": {
+    "test_get": "sls invoke -f get -p event.json",
+    "test_get:local": "sls invoke local -f get -p event.json",
+    "logs_get": "sls logs -f get"
+  },
+  "author": "Ross Dyson",
+  "license": "MIT"
+}
