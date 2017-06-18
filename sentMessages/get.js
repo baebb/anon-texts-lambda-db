@@ -5,11 +5,11 @@ const AWS = require('aws-sdk');
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
 module.exports.get = (event, context, callback) => {
-  
+  console.log(event);
   const params = {
     TableName: 'sentMessages',
     Key: {
-      number: event.body.number,
+      number: Number(event.pathParameters.number),
     },
   };
   

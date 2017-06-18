@@ -3,8 +3,6 @@ service: anon-texts-lambda-db
 provider:
   name: aws
   runtime: nodejs6.10
-  environment:
-    DYNAMODB_TABLE: "arn:aws:dynamodb:us-east-1:008360979626:table/sentMessages"
   iamRoleStatements:
     - Effect: "Allow"
       Action:
@@ -24,7 +22,7 @@ functions:
     handler: sentMessages/get.get
     events:
       - http:
-          path: sentMessages/{id}
+          path: sentMessages/{number}
           method: get
           cors: true
 
