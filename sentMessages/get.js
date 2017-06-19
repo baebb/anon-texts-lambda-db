@@ -5,7 +5,7 @@ const AWS = require('aws-sdk');
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
 module.exports.get = (event, context, callback) => {
-  console.log(event);
+  console.log('event: ',event);
   const params = {
     TableName: 'sentMessages',
     Key: {
@@ -21,10 +21,15 @@ module.exports.get = (event, context, callback) => {
       callback(new Error('Couldn\'t fetch the todo item.'));
       return;
     }
+    
+    console.log('result: ',result);
 
     // create a response
     const response = {
       statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
       body: JSON.stringify(result.Item),
     };
     callback(null, response);
