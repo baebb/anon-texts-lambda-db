@@ -17,9 +17,19 @@ module.exports.get = (event, context, callback) => {
   dynamoDB.get(params, (error, result) => {
     // handle potential errors
     if (error) {
-      console.error(error);
-      callback(new Error('Couldn\'t fetch the todo item.'));
-      return;
+      console.log(`error: ${error.statusCode}`);
+      console.log(`error msg: ${error.message}`);
+      const errResponse = {
+        statusCode: error.statusCode,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
+        body: JSON.stringify({
+          message: error.message,
+          error: error
+        }),
+      };
+      return callback(null, errResponse);
     }
     
     console.log('result: ',result);
