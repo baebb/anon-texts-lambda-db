@@ -5,7 +5,7 @@ const AWS = require('aws-sdk');
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
 module.exports.get = (event, context, callback) => {
-  console.log('event: ',event);
+  // console.log('event: ',event);
   const params = {
     TableName: 'sentMessages',
     Key: {
@@ -13,20 +13,19 @@ module.exports.get = (event, context, callback) => {
     },
   };
   
-  // fetch todo from the database
   dynamoDB.get(params, (error, result) => {
     // handle potential errors
     if (error) {
-      console.log(`error: ${error.statusCode}`);
-      console.log(`error msg: ${error.message}`);
+      console.log(`error: ${error.code}`);
+      console.log(`message: ${error.message}`);
       const errResponse = {
         statusCode: error.statusCode,
         headers: {
           'Access-Control-Allow-Origin': '*',
         },
         body: JSON.stringify({
-          message: error.message,
-          error: error
+          error: error.code,
+          message: error.message
         }),
       };
       return callback(null, errResponse);
