@@ -1,25 +1,35 @@
-'use strict';
-
 const AWS = require('aws-sdk');
 
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
-module.exports.get = (event, context, callback) => {
+module.exports.handler = (event, context, callback) => {
   // console.log('event: ',event);
+  // convert stuff to json if needed
+  let eventData;
+  try {
+    eventData = JSON.parse(event);
+  } catch (e) {
+    eventData = event;
+  }
+  
+  getNumber(eventData, callback)
+};
+
+function getNumber(eventData, callback) {
+  console.log(`NEW_SENT_MESSAGES_LOOKUP ${eventData.pathParameters.number}`);
   const params = {
     TableName: 'sentMessages',
     Key: {
-      number: Number(event.pathParameters.number),
+      number: Number(eventData.pathParameters.number),
     },
   };
   
   dynamoDB.get(params, (error, result) => {
     // handle potential errors
     if (error) {
-      console.log(`error: ${error.code}`);
-      console.log(`message: ${error.message}`);
+      console.log(`SENT_MESSAGES_LOOKUP_ERROR: ${error.code} ${error.message}`);
       const errResponse = {
-        statusCode: error.statusCode,
+        statusCode: 500,
         headers: {
           'Access-Control-Allow-Origin': '*',
         },
@@ -30,17 +40,17 @@ module.exports.get = (event, context, callback) => {
       };
       return callback(null, errResponse);
     }
-    
-    console.log('result: ',result);
-
     // create a response
-    const response = {
-      statusCode: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*'
-      },
-      body: JSON.stringify(result.Item),
-    };
-    callback(null, response);
+    else {
+      console.log(`SENT_MESSAGES_LOOKUP_SUCCESS ${eventData.pathParameters.number}`);
+      const response = {
+        statusCode: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*'
+        },
+        body: JSON.stringify(result.Item),
+      };
+      callback(null, response);
+    }
   });
-};
+}

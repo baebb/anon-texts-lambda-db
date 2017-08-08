@@ -11,7 +11,8 @@ provider:
 
 functions:
   create:
-    handler: sentMessages/create.create
+    handler: sentMessages/create
+    memorySize: 128
     events:
       - http:
           path: sentMessages
@@ -19,7 +20,8 @@ functions:
           cors: true
 
   get:
-    handler: sentMessages/get.get
+    handler: sentMessages/get.handler
+    memorySize: 128
     events:
       - http:
           path: sentMessages/{number}

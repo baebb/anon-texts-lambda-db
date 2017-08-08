@@ -7,8 +7,8 @@
     "aws-sdk": "^2.72.0"
   },
   "scripts": {
-    "test_get": "sls invoke -f get -p event.json",
-    "test_get:local": "sls invoke local -f get -p event.json",
+    "test_get": "sls invoke -f get -p get.json",
+    "test_get:local": "sls invoke local -f get -p get.json",
     "logs_get": "sls logs -f get"
   },
   "author": "Ross Dyson",
