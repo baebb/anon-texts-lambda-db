@@ -12,10 +12,10 @@ module.exports.handler = (event, context, callback) => {
     eventData = event;
   }
   
-  getNumber(eventData, callback)
+  getNumberMessages(eventData, callback)
 };
 
-function getNumber(eventData, callback) {
+function getNumberMessages(eventData, callback) {
   console.log(`NEW_SENT_MESSAGES_LOOKUP ${eventData.pathParameters.number}`);
   const params = {
     TableName: 'sentMessages',

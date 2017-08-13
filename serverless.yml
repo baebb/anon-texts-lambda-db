@@ -11,7 +11,7 @@ provider:
 
 functions:
   create:
-    handler: sentMessages/create
+    handler: sentMessages/create.handler
     memorySize: 128
     events:
       - http:
