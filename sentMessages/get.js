@@ -18,7 +18,7 @@ module.exports.handler = (event, context, callback) => {
 function getNumberMessages(eventData, callback) {
   console.log(`NEW_SENT_MESSAGES_LOOKUP ${eventData.pathParameters.number}`);
   const params = {
-    TableName: 'sentMessages',
+    TableName: 'ATsentMessages',
     Key: {
       number: Number(eventData.pathParameters.number),
     },

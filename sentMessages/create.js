@@ -8,9 +8,9 @@ module.exports.handler = (event, context, callback) => {
   // convert stuff to json if needed
   let eventData;
   try {
-    eventData = JSON.parse(event);
+    eventData = JSON.parse(event.body);
   } catch (e) {
-    eventData = event;
+    eventData = event.body;
   }
   
   addNumberMessage(eventData, callback)
@@ -24,12 +24,12 @@ function addNumberMessage(eventData, callback) {
   };
   console.log(`NEW_CREATE_MESSAGE ${eventData.number} ${messageToAdd.id}`);
   const params = {
-    TableName: 'sentMessages',
+    TableName: 'ATsentMessages',
     Key: { number: Number(eventData.number) },
     UpdateExpression: 'set #messages = list_append(if_not_exists(#messages, :empty_list), :message)',
     ExpressionAttributeNames: { '#messages': 'messages' },
     ExpressionAttributeValues: {
-      ':message': [ messageToAdd ],
+      ':message': [messageToAdd],
       ':empty_list': []
     }
   };
@@ -38,8 +38,31 @@ function addNumberMessage(eventData, callback) {
     // handle potential errors
     if (error) {
       console.log(`PUT_ERROR: ${error.code} ${error.message}`);
-    } else {
-      console.log(`MESSAGE_RECORDED ${eventData.number} ${messageToAdd.id}`);
+      const errResponse = {
+        statusCode: 500,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
+        body: JSON.stringify({
+          error: error.code,
+          message: error.message
+        }),
+      };
+      return callback(null, errResponse)
     }
+    // respond that it worked
+    console.log(`MESSAGE_RECORDED ${eventData.number} ${messageToAdd.id}`);
+    const response = {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+      body: JSON.stringify({
+        number: eventData.number,
+        id: messageToAdd.id,
+        message: messageToAdd.message
+      }),
+    };
+    callback(null, response);
   })
 }
