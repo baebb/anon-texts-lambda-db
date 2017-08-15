@@ -17,13 +17,12 @@ module.exports.handler = (event, context, callback) => {
 };
 
 function addNumberMessage(eventData, callback) {
-  console.log('number', eventData.number);
-  console.log('message: ', eventData.message);
   const messageToAdd = {
-    sentMsg: eventData.messsage,
+    sentMsg: eventData.message,
     timestamp: Date.now(),
     id: uuid()
   };
+  console.log(`NEW_CREATE_MESSAGE ${eventData.number} ${messageToAdd.id}`);
   const params = {
     TableName: 'sentMessages',
     Key: { number: Number(eventData.number) },
@@ -40,7 +39,7 @@ function addNumberMessage(eventData, callback) {
     if (error) {
       console.log(`PUT_ERROR: ${error.code} ${error.message}`);
     } else {
-      console.log(`MESSAGE_RECORDED`);
+      console.log(`MESSAGE_RECORDED ${eventData.number} ${messageToAdd.id}`);
     }
   })
-};
+}

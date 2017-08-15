@@ -10,7 +10,10 @@
   "scripts": {
     "test_get": "sls invoke -f get -p get.json",
     "test_get:local": "sls invoke local -f get -p get.json",
-    "logs_get": "sls logs -f get"
+    "logs_get": "sls logs -f get",
+    "test_create": "sls invoke -f create -p create.json",
+    "test_create:local": "sls invoke local -f create -p create.json",
+    "logs_create": "sls logs -f create"
   },
   "author": "Ross Dyson",
   "license": "MIT"
