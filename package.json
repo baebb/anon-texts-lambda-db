@@ -8,12 +8,12 @@
     "uuid": "^3.1.0"
   },
   "scripts": {
-    "test_get": "sls invoke -f get -p get.json",
-    "test_get:local": "sls invoke local -f get -p get.json",
-    "logs_get": "sls logs -f get",
-    "test_create": "sls invoke -f create -p create.json",
-    "test_create:local": "sls invoke local -f create -p create.json",
-    "logs_create": "sls logs -f create"
+    "test:get": "sls invoke -f get -p get.json",
+    "test:get_local": "sls invoke local -f get -p get.json",
+    "logs:get": "sls logs -f get",
+    "test:create": "sls invoke -f create -p create.json",
+    "test:create_local": "sls invoke local -f create -p create.json",
+    "logs:create": "sls logs -f create"
   },
   "author": "Ross Dyson",
   "license": "MIT"

@@ -26,10 +26,14 @@ function addNumberMessage(eventData, callback) {
   const params = {
     TableName: 'ATsentMessages',
     Key: { number: Number(eventData.number) },
-    UpdateExpression: 'set #messages = list_append(if_not_exists(#messages, :empty_list), :message)',
-    ExpressionAttributeNames: { '#messages': 'messages' },
+    UpdateExpression: 'set #messages = list_append(if_not_exists(#messages, :empty_list), :message), #country = :country',
+    ExpressionAttributeNames: {
+      '#messages': 'messages',
+      '#country': 'country',
+    },
     ExpressionAttributeValues: {
       ':message': [messageToAdd],
+      ':country': eventData.countryCode,
       ':empty_list': []
     }
   };
@@ -60,7 +64,8 @@ function addNumberMessage(eventData, callback) {
       body: JSON.stringify({
         number: eventData.number,
         id: messageToAdd.id,
-        message: messageToAdd.message
+        message: messageToAdd.message,
+        country: eventData.countryCode
       }),
     };
     callback(null, response);
