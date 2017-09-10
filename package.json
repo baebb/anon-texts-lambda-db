@@ -4,8 +4,7 @@
   "version": "0.1.0",
   "devDependencies": {},
   "dependencies": {
-    "aws-sdk": "^2.72.0",
-    "uuid": "^3.1.0"
+    "aws-sdk": "^2.72.0"
   },
   "scripts": {
     "test:get": "sls invoke -f get -p get.json",

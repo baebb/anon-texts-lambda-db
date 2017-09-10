@@ -1,5 +1,4 @@
 const AWS = require('aws-sdk');
-const uuid = require('uuid/v1');
 
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
@@ -20,9 +19,9 @@ function addNumberMessage(eventData, callback) {
   const messageToAdd = {
     sentMsg: eventData.message,
     timestamp: Date.now(),
-    id: uuid()
+    id: eventData.id
   };
-  console.log(`NEW_CREATE_MESSAGE ${eventData.number} ${messageToAdd.id}`);
+  console.log(`NEW_CREATE_MESSAGE ${eventData.number} ${eventData.id}`);
   const params = {
     TableName: 'ATsentMessages',
     Key: { number: Number(eventData.number) },
@@ -41,7 +40,7 @@ function addNumberMessage(eventData, callback) {
   dynamoDB.update(params, (error, data) => {
     // handle potential errors
     if (error) {
-      console.log(`PUT_ERROR: ${error.code} ${error.message}`);
+      console.log(`PUT_ERROR: ${eventData.id} ${error.code} ${error.message}`);
       const errResponse = {
         statusCode: 500,
         headers: {
@@ -55,7 +54,7 @@ function addNumberMessage(eventData, callback) {
       return callback(null, errResponse)
     }
     // respond that it worked
-    console.log(`MESSAGE_RECORDED ${eventData.number} ${messageToAdd.id}`);
+    console.log(`MESSAGE_RECORDED ${eventData.number} ${eventData.id}`);
     const response = {
       statusCode: 200,
       headers: {
