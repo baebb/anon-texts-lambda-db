@@ -5,6 +5,7 @@ const dynamoDB = new AWS.DynamoDB.DocumentClient();
 module.exports.handler = (event, context, callback) => {
   // console.log('event: ',event);
   // convert stuff to json if needed
+  console.log(process.env.stage);
   let eventData;
   try {
     eventData = JSON.parse(event);
