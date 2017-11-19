@@ -19,7 +19,8 @@ function addNumberMessage(eventData, callback) {
   const messageToAdd = {
     sentMsg: eventData.message,
     timestamp: Date.now(),
-    id: eventData.id
+    id: eventData.id,
+    isReply: eventData.isReply || false
   };
   console.log(`NEW_CREATE_MESSAGE ${eventData.number} ${eventData.id}`);
   const params = {
@@ -36,7 +37,7 @@ function addNumberMessage(eventData, callback) {
       ':empty_list': []
     }
   };
-  
+
   dynamoDB.update(params, (error, data) => {
     // handle potential errors
     if (error) {

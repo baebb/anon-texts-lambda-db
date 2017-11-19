@@ -11,7 +11,7 @@ module.exports.handler = (event, context, callback) => {
   } catch (e) {
     eventData = event;
   }
-  
+
   getNumberMessages(eventData, callback)
 };
 
@@ -23,7 +23,7 @@ function getNumberMessages(eventData, callback) {
       number: Number(eventData.pathParameters.number),
     },
   };
-  
+
   dynamoDB.get(params, (error, result) => {
     // handle potential errors
     if (error) {
